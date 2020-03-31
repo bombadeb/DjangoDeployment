@@ -1,0 +1,18 @@
+#####
+# Docker compose YAML file
+#
+# For documentation see: https://docs.docker.com/compose/yml/
+#####
+
+version: "3"
+services:
+  python:
+    #image: python:3.4
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile
+    volumes:
+      - ./djangoModule:/djangoModule
+    ports:
+      -  "8000:8000"
+    command: gunicorn -w 4 djangoModule.wsgi --bind 0.0.0.0:8000
