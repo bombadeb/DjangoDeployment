@@ -1,0 +1,48 @@
+#!groovy
+
+def checkout_git_code(String repo_url, String branch,
+    String target_directory, Boolean polling_enabled, String branch_type) {
+      
+        checkout poll: polling_enabled, scm: [$class: 'GitSCM', branches: [[name: "*/${branch}"]], 
+            doGenerateSubmoduleConfigurations: false,
+            extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${target_directory}"]], 
+            submoduleCfg: [], 
+            userRemoteConfigs: [[url: "${repo_url}"]]]
+    }
+node {
+    try {
+        stage('Checkout Source Code for Django-Project-Deployment') {
+            checkout_git_code('https://github.com/bombadeb/DjangoDeployment.git',
+                "${BRANCH}", 'Django-Project-Deployment', false, 'master')
+        }
+        stage('Checkout Source Code for Django-Project') {
+            checkout_git_code('https://github.com/bombadeb/DjangoProject.git',
+                "${BRANCH}", 'Django-Project', false, 'master')
+        }
+        stage('Copy clean code to deployment directory') {
+            sh '''#!/bin/bash
+        cp -r Django-Project/djangoModule Django-Project-Deployment/
+        ls Django-Project-Deployment/
+        '''
+        }
+        stage('Create Docker Images') {
+            sh '''#!/bin/bash
+        cd Django-Project-Deployment
+        docker-compose config
+        sudo docker-compose build
+        '''
+        }
+        stage('Push Docker Image to Docker Hub Registry') {
+            sh '''#!/bin/bash
+        //sudo docker login -u anirbandeb -p *******
+        sudo docker push anirbandeb/djangoimages
+        '''
+        }
+        cleanWs()
+        } catch (e) {
+        currentBuild.result = "FAILED"
+        throw e
+        } finally {
+        //notifyBuild(currentBuild.result)
+        }
+}
