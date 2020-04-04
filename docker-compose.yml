@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile/Dockerfile
-    image: anirbandeb/djangoimages:1.0.2
+    image: anirbandeb/djangoimages:1.0.3
     volumes:
       - ./djangoModule:/djangoModule
     ports:
