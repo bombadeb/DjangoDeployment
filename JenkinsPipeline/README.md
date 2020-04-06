@@ -11,31 +11,19 @@ systemctl start jenkins
 systemctl enable jenkins
 ```
 
-##Add the following in the sudoers file [sudo visudo -f /etc/sudoers]
-jenkins ALL=(ALL) NOPASSWD: ALL
-
-## Installation
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
+## Add the following in the sudoers file [sudo visudo -f /etc/sudoers]
 ```bash
-pip install foobar
+jenkins ALL=(ALL) NOPASSWD: ALL
 ```
 
-## Usage
+## Running the job 
+```bash
+Job Name : DjangoProjectBuildPipeline
+Click --> Build with Parameter
 
-```python
-import foobar
+Give the two parameters
+1. DEVELOPMENT_BRANCH : master
+2. DEPLOYMENT_BRANCH	: master 
 
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+Click --> Build
 ```
-
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
