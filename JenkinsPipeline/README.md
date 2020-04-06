@@ -2,7 +2,7 @@
 
 Please find the steps for integration for the same.
 
-##Jenkins installation on Centos 7
+## Jenkins installation on Centos 7
 ```bash
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat-stable/jenkins.repo
 rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
@@ -10,6 +10,9 @@ yum install jenkins java-1.8.0-openjdk –y
 systemctl start jenkins
 systemctl enable jenkins
 ```
+
+##Add the following in the sudoers file [sudo visudo -f /etc/sudoers]
+jenkins ALL=(ALL) NOPASSWD: ALL
 
 ## Installation
 
